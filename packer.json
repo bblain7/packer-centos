@@ -1,0 +1,52 @@
+{
+    "description": "Packer template to create a Vagrant box for {{ user `box_name` }}",
+    "builders": [{
+        "boot_command": [
+          "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
+        ],
+        "boot_wait": "10s",
+        "disk_size": "81920",
+        "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+        "guest_os_type": "RedHat_64",
+        "headless": "true",
+        "http_directory": "{{ template_dir }}/http",
+        "iso_checksum": "51ba29b6afcc60cc8fbfa79cb9cf5f601d8a4ea5dcb895ccfa0380f58e227143",
+        "iso_checksum_type": "sha256",
+        "iso_urls": [
+            "https://buildlogs.centos.org/rolling/7/isos/x86_64/CentOS-7-x86_64-Minimal-1701-01.iso"
+        ],
+        "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
+        "ssh_password": "vagrant",
+        "ssh_port": 22,
+        "ssh_timeout": "10000s",
+        "ssh_username": "vagrant",
+        "type": "virtualbox-iso",
+        "vboxmanage": [
+            [
+                "modifyvm",
+                "{{.Name}}",
+                "--memory",
+                "1024"
+            ],
+            [
+                "modifyvm",
+                "{{.Name}}",
+                "--cpus",
+                "2"
+            ]
+        ]
+    }],
+    "provisioners": [{
+        "type": "shell",
+        "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+        "scripts": [
+            "{{ template_dir }}/scripts/{{ build_type }}-guest-additions.sh",
+            "{{ template_dir }}/scripts/cleanup.sh"
+        ]
+    }],
+    "post-processors": [{
+        "output": "{{ template_dir }}/boxes/{{ .Provider }}/{{ user `box_name` }}.box",
+        "type": "vagrant"
+    }]
+}
+
