@@ -10,10 +10,10 @@
         "guest_os_type": "RedHat_64",
         "headless": "true",
         "http_directory": "{{ template_dir }}/http",
-        "iso_checksum": "51ba29b6afcc60cc8fbfa79cb9cf5f601d8a4ea5dcb895ccfa0380f58e227143",
+        "iso_checksum": "27bd866242ee058b7a5754e83d8ee8403e216b93d130d800852a96f41c34d86a",
         "iso_checksum_type": "sha256",
         "iso_urls": [
-            "https://buildlogs.centos.org/rolling/7/isos/x86_64/CentOS-7-x86_64-Minimal-1701-01.iso"
+            "https://buildlogs.centos.org/rolling/7/isos/x86_64/CentOS-7-x86_64-Minimal-1611.iso"
         ],
         "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now",
         "ssh_password": "vagrant",
@@ -50,4 +50,3 @@
         "type": "vagrant"
     }]
 }
-
